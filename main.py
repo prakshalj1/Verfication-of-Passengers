@@ -1,9 +1,14 @@
 
-from flask import Flask, render_template, flash, redirect, url_for, session, logging, request
+from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 from pyzbar.pyzbar import decode
 import cv2
 import qrcode
+import pyqrcode
+import time
+import png
+from pyqrcode import QRCode
+import webbrowser
 
 
 
@@ -94,12 +99,16 @@ def register():
         db.session.add(register)
         db.session.commit()
 
+        pic=f'{uname}'
+        dpic=pyqrcode.create(pic)
+        dpic.png(f'{uname}.png',scale=6)
 
 
-        img=qrcode.make(f"{uname}")
-        img.save(f"{uname}.jpg")
-        img = cv2.imread(r'C:\Users\parth\minor_project2\prakshal216.jpg')
-        print(decode(img))
+
+        # img=qrcode.make(f"{uname}")
+        # img.save(f"{uname}.jpg")
+        # img = cv2.imread(r'C:\Users\parth\minor_project2\prakshal216.jpg')
+        # print(decode(img))
 
         return ("Qr Code generated")
 
