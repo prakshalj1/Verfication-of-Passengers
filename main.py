@@ -44,10 +44,43 @@ def login():
 
         login = user.query.filter_by(username=uname, password=passw).first()
         if login is not None:
-            return redirect(url_for("index"))
+            cap=cv2.VideoCapture(0)
+            cap.set(5,640)
+            cap.set(6,480)
+
+            while True:
+                _,img=cap.read()
+                for i in decode(img):
+                    k=i.data.decode('utf-8')
+                    if k == uname:
+                        return render_template("access granted.html")
+                    else:
+                        return render_template("access denies.html")
+                    time.sleep(3)
+
+                    # k=user.query.filter_by(username=a).first()
+                    # if a == k :
+                    #     print('access granted')
+                    #     break
+
+
+
+
+                cv2.imshow('Scanner app',img)
+
+
+                cv2.waitKey(2)
+
+
+            # b=webbrowser.open(str(a))
+
+
+
+            # return redirect(url_for("index"))
 
 
     return render_template("login.html")
+
 
 
 @app.route("/register", methods=["GET", "POST"])
